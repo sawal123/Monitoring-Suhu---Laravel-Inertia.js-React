@@ -14,11 +14,11 @@ import DateTime from "datatables.net-datetime";
 import Respon from "datatables.net-responsive-bs5";
 import formatDistance from "date-fns/formatDistance";
 
-function Dashboard({ auth, data }:any) {
+function Dashboard({ auth, data }: any) {
     const tableRef = useRef();
     const [cari, setCari] = useState("");
     const [query, setQuery] = useState([]);
-    const inputHandler = (event: { target: { value: any; }; }) => {
+    const inputHandler = (event: { target: { value: any } }) => {
         const target = event.target.value;
         setCari(target);
     };
@@ -35,24 +35,20 @@ function Dashboard({ auth, data }:any) {
         const noCetak = document.querySelectorAll(".noCetak");
 
         noCetak.forEach((element) => {
-            const el = element as HTMLElement ;
-            // console.log(el);
+            const el = element as HTMLElement;
             el.style.display = "none";
         });
 
         window.addEventListener("afterprint", () => {
-            // Jika pencetakan dimulai, tampilkan kembali elemen-elemen setelah pencetakan selesai
             noCetak.forEach((element) => {
-                const el = element as HTMLElement ;
+                const el = element as HTMLElement;
                 el.style.display = "block";
             });
         });
         window.print();
     };
     useEffect(() => {}, [setQuery, auth, query, data]);
-    // console.log(cari);
-    // console.log(data);
-
+    console.log(data.links);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -107,6 +103,9 @@ function Dashboard({ auth, data }:any) {
                                             Debu
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Tanggal
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -115,7 +114,7 @@ function Dashboard({ auth, data }:any) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((item:any) => {
+                                    {data.data.map((item: any) => {
                                         const originalDate = item.created_at;
                                         const dateAndTime =
                                             originalDate.split("T"); // Memisahkan tanggal dan waktu berdasarkan spasi
@@ -123,9 +122,12 @@ function Dashboard({ auth, data }:any) {
                                             new Date(dateAndTime[0]),
                                             "dd/MM/yyyy"
                                         );
-                                     
-                                        const formattedTime = dateAndTime[1].replace(/\.\d+Z/, '');;
-                                      
+
+                                        const formattedTime =
+                                            dateAndTime[1].replace(
+                                                /\.\d+Z/,
+                                                ""
+                                            );
 
                                         return (
                                             <tr
@@ -141,6 +143,57 @@ function Dashboard({ auth, data }:any) {
                                                 <td className="px-6 py-4 whitespace-nowrap border-r-2">
                                                     {item.debu}
                                                 </td>
+                                                <td className="pl-3 py-4 whitespace-nowrap border-r-2">
+                                                    <span
+                                                        className={`py-2 px-4   rounded-lg text-white ${
+                                                            item.suhu >= 25 &&
+                                                            item.suhu <= 30 &&
+                                                            item.debu >= 25 &&
+                                                            item.debu <= 30
+                                                                ? "bg-slate-400"
+                                                                : (item.suhu <=
+                                                                      25 ||
+                                                                      item.suhu >=
+                                                                          30) &&
+                                                                  item.debu >=
+                                                                      25 &&
+                                                                  item.debu <=
+                                                                      30
+                                                                ? "bg-red-500"
+                                                                : item.suhu >=
+                                                                      25 &&
+                                                                  item.suhu <=
+                                                                      30 &&
+                                                                  (item.debu <=
+                                                                      25 ||
+                                                                      item.debu >=
+                                                                          30)
+                                                                ? "bg-blue-500"
+                                                                : "bg-slate-600"
+                                                        }`}
+                                                    >
+                                                        {item.suhu >= 25 &&
+                                                        item.suhu <= 30 &&
+                                                        item.debu >= 25 &&
+                                                        item.debu <= 30
+                                                            ? "Normal"
+                                                            : (item.suhu <=
+                                                                  25 ||
+                                                                  item.suhu >=
+                                                                      30) &&
+                                                              item.debu >= 25 &&
+                                                              item.debu <= 30
+                                                            ? "Suhu Danger"
+                                                            : item.suhu >= 25 &&
+                                                              item.suhu <= 30 &&
+                                                              (item.debu <=
+                                                                  25 ||
+                                                                  item.debu >=
+                                                                      30)
+                                                            ? "Debu Danger"
+                                                            : "Tidak Normal"}
+                                                    </span>
+                                                </td>
                                                 <td className="px-6 py-4 whitespace-nowrap border-r-2">
                                                     {formattedDate}
                                                 </td>
@@ -152,6 +205,25 @@ function Dashboard({ auth, data }:any) {
                                     })}
                                 </tbody>
                             </table>
+                            <div className="pagination mt-5 noCetak">
+                                {data.links.map((link: any, index: any) => (
+                                    <a
+                                        key={index}
+                                        href={link.url}
+                                        className={`px-3 py-2 mx-1 border rounded ${
+                                            link.active
+                                                ? "bg-blue-500 text-white"
+                                                : "bg-white text-blue-500"
+                                        }`}
+                                    >
+                                        {link.label === "Next &raquo;"
+                                            ? "Next"
+                                            : link.label === "&laquo; Previous"
+                                            ? "Next"
+                                            : link.label}
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

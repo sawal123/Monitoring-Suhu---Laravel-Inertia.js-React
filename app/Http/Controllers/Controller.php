@@ -32,15 +32,14 @@ class Controller extends BaseController
     }
     public function dashboard(){
         
-        $suhu = Suhu::all();
         $data = Suhu::join('debus', 'debus.id', '=', 'suhus.id')
         ->select('suhus.id', 'suhus.suhu', 'debus.debu', 'debus.created_at')
-        ->get();
+        ->paginate(10);
         
         // dd($data);
         return Inertia::render('Dashboard',[
             'title'=> 'Dashboard',
-            'data' => $data
+            'data' => $data,
         ]);
     }
 

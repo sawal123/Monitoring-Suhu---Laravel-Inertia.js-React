@@ -39,17 +39,18 @@ function Home({ title, suhu, debu, user }: any) {
                 </div>
                 <div className="grid grid-cols-1 text-center lg:flex lg:justify-evenly lg:grid-cols-2 ">
                     <div
-                        className="p-10 m-5 mx-auto text-center border rounded-md"
+                        className={`p-10 m-5 mx-auto text-center  border rounded-md ${data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
-                        Suhu
+                        Suhu {data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "Tidak Normal"}
                         <p className="text-3xl font-bold">{data[0].suhu}</p>
+                        
                     </div>
                     <div
-                        className="p-10 m-5 mx-auto text-center border rounded-md"
+                        className={`p-10 m-5 mx-auto text-center border rounded-md ${data[0].debu >= 25 && data[0].debu <=30 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
-                        Debu
+                        Debu {data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "Tidak Normal"}
                         <p className="text-3xl font-bold">{data[0].debu}</p>
                     </div>
                 </div>
