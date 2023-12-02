@@ -52,4 +52,23 @@ class Controller extends BaseController
             'query' => $query,
         ]);
     }
+
+    public function addData($suhu = null, $debu=null){
+        if($suhu != null && $debu != null){
+            $saveSuhu = new Suhu([
+                'suhu' => $suhu,
+            ]);
+            $saveDebu =new Debu([
+                'debu'=>$debu
+            ]);
+
+            $saveSuhu->save();
+            $saveDebu->save();
+
+            return '1';
+        }
+        else{
+            return 'Data Gagal Ditambah';
+        }
+    }
 }

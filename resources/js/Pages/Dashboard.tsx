@@ -87,6 +87,7 @@ function Dashboard({ auth, data }: any) {
                                     </button>
                                 </div>
                             </div>
+                            <div className="overflow-x-auto">
                             <table
                                 id="example"
                                 className=" border-collapse w-full min-w-full divide-y divide-gray-200 table table-striped"
@@ -114,7 +115,7 @@ function Dashboard({ auth, data }: any) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.data.map((item: any) => {
+                                    {data.data.map((item: any, index:any) => {
                                         const originalDate = item.created_at;
                                         const dateAndTime =
                                             originalDate.split("T"); // Memisahkan tanggal dan waktu berdasarkan spasi
@@ -135,7 +136,7 @@ function Dashboard({ auth, data }: any) {
                                                 className="border "
                                             >
                                                 <td className="px-6 py-4 whitespace-nowrap border-r-2 ">
-                                                    {item.id}
+                                                    {index+1}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap border-r-2">
                                                     {item.suhu}
@@ -205,6 +206,8 @@ function Dashboard({ auth, data }: any) {
                                     })}
                                 </tbody>
                             </table>
+                            </div>
+                           
                             <div className="pagination mt-5 noCetak">
                                 {data.links.map((link: any, index: any) => (
                                     <a
