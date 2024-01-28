@@ -30,10 +30,11 @@ use Inertia\Inertia;
 Route::get('/', [Controller::class, 'home']);
 Route::get('/sse', [SSEController::class,'stream'])->name('stream');
 
-Route::get('/dashboard', [Controller::class, 'Dashboard'] )->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/addData/{suhu}/{debu}', [Controller::class, 'addData']);
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard/{date?}', [Controller::class, 'Dashboard'] )->name('dashboard');
+    // Route::get('/dashboard/{date?}', [Controller::class, 'Dashboard'] )->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/search',[Controller::class, 'search'])->name('search');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

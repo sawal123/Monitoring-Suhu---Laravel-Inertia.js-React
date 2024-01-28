@@ -19,27 +19,37 @@ class Controller extends BaseController
 
     public function home()
     {
+        date_default_timezone_set("Asia/Bangkok");
         $title = "Monitoring";
         $suhu = Suhu::all();
+        // dd(date('Y-m-d'));
         $suhuAkhir = Suhu::orderBy("id", "desc")->first();
         $debuAkhir = Debu::orderBy("id", "desc")->first();
         return Inertia::render('Home/Home', [
             'title' => $title,
             'suhu' => $suhuAkhir,
             'debu' => $debuAkhir,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'date' => date('Y-m-d')
         ]);
     }
-    public function dashboard(){
-        
+    public function dashboard($date = null){
+        // dd($date);
+        date_default_timezone_set("Asia/Bangkok");
+        $date = $date === null ? date("Y-m-d") : $date;
+        // $date = $date === null ? date("Y-m-d") : $date;
+       
+        // dd($date);
         $data = Suhu::join('debus', 'debus.id', '=', 'suhus.id')
         ->select('suhus.id', 'suhus.suhu', 'debus.debu', 'debus.created_at')
+        ->whereDate('suhus.created_at', $date)
         ->paginate(10);
-        
         // dd($data);
-        return Inertia::render('Dashboard',[
+        
+        return inertia('Dashboard',[
             'title'=> 'Dashboard',
-            'data' => $data,
+            'datas' => $data,
+            'date'=>$date
         ]);
     }
 

@@ -2,7 +2,7 @@ import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function Home({ title, suhu, debu, user }: any) {
+function Home({ title, suhu, debu, user,  date }: any) {
     // const {user} = props;
     const mystyle = {
         width: "300px",
@@ -17,7 +17,7 @@ function Home({ title, suhu, debu, user }: any) {
             console.error("Error fetching data:", error);
         }
     };
-    // Panggil fungsi berlangganan saat komponen dimuat
+    // Panggil fungsi berlangganan saat komponen dimu
     useEffect(() => {
         fetchData(); // Memuat data saat komponen pertama kali dimuat
         const interval = setInterval(() => {
@@ -29,17 +29,21 @@ function Home({ title, suhu, debu, user }: any) {
     }, []);
     // console.log(user.name);
     return (
-        <div>
+        <div className="p-2">
             <Head title={title} />
-            <div className="container mx-auto">
-                <div className="my-10 mb-10 text-center ">
+            <div className="container mx-auto my-10 mb-10 text-center rounded-lg border p-4">
+                <div className="mb-5">
                     <h1 className="text-4xl font-bold">
                         Monitoring Suhu & Debu Ruangan {user ? (user.name):('')}
                     </h1>
+                    <div className="text-xl font-bold mt-2">
+                        {date}
+                    </div>
                 </div>
-                <div className="grid grid-cols-1 text-center lg:flex lg:justify-evenly lg:grid-cols-2 ">
+                
+                <div className="flex gap-3 justify-center">
                     <div
-                        className={`p-10 m-5 mx-auto text-center  border rounded-md ${data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "bg-red-600 text-white"} `}
+                        className={`p-10 text-center hover:shadow-lg transition-shadow  border rounded-md ${data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
                         Suhu {data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "Tidak Normal"}
@@ -47,27 +51,27 @@ function Home({ title, suhu, debu, user }: any) {
                         
                     </div>
                     <div
-                        className={`p-10 m-5 mx-auto text-center border rounded-md ${data[0].debu >= 25 && data[0].debu <=30 ? "Normal" : "bg-red-600 text-white"} `}
+                        className={`p-10 text-center hover:shadow-lg transition-shadow border rounded-md ${data[0].debu >= 0.0 && data[0].debu <=0.10 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
-                        Debu {data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "Tidak Normal"}
+                        Debu {data[0].debu >= 0.0 && data[0].debu <= 0.10 ? "Normal" : "Tidak Normal"}
                         <p className="text-3xl font-bold">{data[0].debu}</p>
                     </div>
                 </div>
                 <div className="grid my-16 text-center">
-                    <h1>Login untuk melihat data lebih detail</h1>
+                    <h1>Login untuk melihat rekap data</h1>
                     <div className="flex justify-center">
                         {user ? (
                             <Link
                                 href={"/dashboard"}
-                                className="w-40 py-3 font-bold text-center text-white bg-blue-700 rounded-lg px5"
+                                className="w-40 py-3 font-bold text-center text-white bg-blue-500 hover:bg-blue-700 transition-colors rounded-lg px5"
                             >
                                 Dashboard
                             </Link>
                         ) : (
                             <Link
                                 href={"/login"}
-                                className="w-40 py-3 font-bold text-center text-white bg-blue-700 rounded-lg px5"
+                                className="w-40 py-3 font-bold text-center text-white bg-blue-500 hover:bg-blue-700 transition-colors rounded-lg px5"
                             >
                                 Login
                             </Link>

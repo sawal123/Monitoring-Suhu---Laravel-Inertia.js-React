@@ -19,10 +19,9 @@ class Suhu extends Seeder
         for ($i = 0; $i < 10; $i++) {
             DB::table('suhus')->insert([
                 'suhu' => rand(10, 30),
-                'created_at'=>\Carbon\Carbon::now(),
-                'updated_at'=>\Carbon\Carbon::now(),
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ]);
         }
-
     }
 }
