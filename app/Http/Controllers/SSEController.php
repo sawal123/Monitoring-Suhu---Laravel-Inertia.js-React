@@ -23,12 +23,12 @@ class SSEController extends Controller
         // event(new NewContentNotication("Latihan Pusher"));
         $suhuAkhir = Suhu::orderBy("id", "desc")->first();
         $debuAkhir = Debu::orderBy("id", "desc")->first();
-        $suhu = $suhuAkhir->suhu;
+        $kelembaban = $suhuAkhir->kelembaban;
 
         $data=[];
 
         $data[] = [
-            "suhu"=> $suhu,
+            "kelembaban"=> $kelembaban,
             "debu"=> $debuAkhir->debu
         ];
 

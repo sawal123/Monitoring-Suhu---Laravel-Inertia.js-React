@@ -125,7 +125,7 @@ function Dashboard({ auth, datas, date }: any) {
                                                 ID
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Suhu
+                                                Kelembaban
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Debu
@@ -168,7 +168,7 @@ function Dashboard({ auth, datas, date }: any) {
                                                             {index + 1}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap border-r-2">
-                                                            {item.suhu}
+                                                            {item.kelembaban}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap border-r-2">
                                                             {item.debu}

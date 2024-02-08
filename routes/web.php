@@ -30,7 +30,7 @@ use Inertia\Inertia;
 Route::get('/', [Controller::class, 'home']);
 Route::get('/sse', [SSEController::class,'stream'])->name('stream');
 
-Route::get('/addData/{suhu}/{debu}', [Controller::class, 'addData']);
+Route::get('/addData/{suhu}/{kelembaban}/{debu}', [Controller::class, 'addData']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/{date?}', [Controller::class, 'Dashboard'] )->name('dashboard');

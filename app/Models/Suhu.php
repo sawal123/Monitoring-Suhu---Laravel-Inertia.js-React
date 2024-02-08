@@ -10,5 +10,6 @@ class Suhu extends Model
     use HasFactory;
     protected $fillable = [
         'suhu',
+        'kelembaban'
     ];
 }

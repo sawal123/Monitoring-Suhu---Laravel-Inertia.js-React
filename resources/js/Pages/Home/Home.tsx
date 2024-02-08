@@ -2,13 +2,13 @@ import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function Home({ title, suhu, debu, user,  date }: any) {
+function Home({ title, kelembaban, debu, user,  date }: any) {
     // const {user} = props;
     const mystyle = {
         width: "300px",
     };
 
-    const [data, setData] = useState([suhu, debu]);
+    const [data, setData] = useState([kelembaban, debu]);
     const fetchData = async () => {
         try {
             const response = await axios.get("/sse");
@@ -19,6 +19,7 @@ function Home({ title, suhu, debu, user,  date }: any) {
     };
     // Panggil fungsi berlangganan saat komponen dimu
     useEffect(() => {
+        console.log(data[0].kelembaban);
         fetchData(); // Memuat data saat komponen pertama kali dimuat
         const interval = setInterval(() => {
             fetchData(); // Memuat data secara berkala setiap 1000 ms (1 detik)
@@ -34,7 +35,7 @@ function Home({ title, suhu, debu, user,  date }: any) {
             <div className="container mx-auto my-10 mb-10 text-center rounded-lg border p-4">
                 <div className="mb-5">
                     <h1 className="text-4xl font-bold">
-                        Monitoring Suhu & Debu Ruangan {user ? (user.name):('')}
+                        Monitoring Kelemababan & Debu Ruangan {user ? (user.name):('')}
                     </h1>
                     <div className="text-xl font-bold mt-2">
                         {date}
@@ -43,18 +44,18 @@ function Home({ title, suhu, debu, user,  date }: any) {
                 
                 <div className="flex gap-3 justify-center">
                     <div
-                        className={`p-10 text-center hover:shadow-lg transition-shadow  border rounded-md ${data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "bg-red-600 text-white"} `}
+                        className={`p-10 text-center hover:shadow-lg transition-shadow  border rounded-md ${data[0].kelembaban >= 40 && data[0].kelembaban <=60 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
-                        Suhu {data[0].suhu >= 25 && data[0].suhu <=30 ? "Normal" : "Tidak Normal"}
-                        <p className="text-3xl font-bold">{data[0].suhu}</p>
+                        Kelembaban {data[0].kelembaban >= 40 && data[0].kelembaban <=60 ? "Normal" : "Tidak Normal"}
+                        <p className="text-3xl font-bold">{data[0].kelembaban}</p>
                         
                     </div>
                     <div
-                        className={`p-10 text-center hover:shadow-lg transition-shadow border rounded-md ${data[0].debu >= 0.0 && data[0].debu <=0.10 ? "Normal" : "bg-red-600 text-white"} `}
+                        className={`p-10 text-center hover:shadow-lg transition-shadow border rounded-md ${data[0].debu >= 0 && data[0].debu <=20 ? "Normal" : "bg-red-600 text-white"} `}
                         style={mystyle}
                     >
-                        Debu {data[0].debu >= 0.0 && data[0].debu <= 0.10 ? "Normal" : "Tidak Normal"}
+                        Debu {data[0].debu >= 0 && data[0].debu <= 20 ? "Normal" : "Tidak Normal"}
                         <p className="text-3xl font-bold">{data[0].debu}</p>
                     </div>
                 </div>

@@ -25,9 +25,10 @@ class Controller extends BaseController
         // dd(date('Y-m-d'));
         $suhuAkhir = Suhu::orderBy("id", "desc")->first();
         $debuAkhir = Debu::orderBy("id", "desc")->first();
+        // dd($suhuAkhir);
         return Inertia::render('Home/Home', [
             'title' => $title,
-            'suhu' => $suhuAkhir,
+            'kelembaban' => $suhuAkhir,
             'debu' => $debuAkhir,
             'user' => Auth::user(),
             'date' => date('Y-m-d')
@@ -41,7 +42,7 @@ class Controller extends BaseController
        
         // dd($date);
         $data = Suhu::join('debus', 'debus.id', '=', 'suhus.id')
-        ->select('suhus.id', 'suhus.suhu', 'debus.debu', 'debus.created_at')
+        ->select('suhus.id', 'suhus.kelembaban', 'debus.debu', 'debus.created_at')
         ->whereDate('suhus.created_at', $date)
         ->paginate(10);
         // dd($data);
@@ -63,10 +64,11 @@ class Controller extends BaseController
         ]);
     }
 
-    public function addData($suhu = null, $debu=null){
+    public function addData($suhu = null,$kelembaban=null, $debu=null){
         if($suhu != null && $debu != null){
             $saveSuhu = new Suhu([
                 'suhu' => $suhu,
+                'kelembaban' => $kelembaban
             ]);
             $saveDebu =new Debu([
                 'debu'=>$debu
